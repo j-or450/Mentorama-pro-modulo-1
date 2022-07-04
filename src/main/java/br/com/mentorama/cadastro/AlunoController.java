@@ -14,19 +14,10 @@ public class AlunoController {
         this.alunoService = alunoService;
     }
 
-    @GetMapping("/get1")
-    public ResponseEntity<String> get1(){
-        throw new RecursoInexistenteException();
-    }
-
     @GetMapping
     public ResponseEntity<List<Aluno>> findAll(@RequestParam(required = false) Integer id, String nome, Integer idade){
         List<Aluno> list = alunoService.findAll(id,nome,idade);
-            try {
-                return ResponseEntity.ok().body(list);
-            }catch (RuntimeException e){
-                throw new RecursoInexistenteException();
-            }
+        return ResponseEntity.ok().body(list);
     }
 
     @GetMapping("/{id}")
