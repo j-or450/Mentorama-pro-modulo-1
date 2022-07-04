@@ -19,16 +19,25 @@ public class AlunoService {
             alunosFilter = alunosFilter.stream()
                     .filter(alunoId -> alunoId.getId().equals(id))
                     .collect(Collectors.toList());
+            if(alunosFilter.isEmpty()){
+                throw new RecursoInexistenteException();
+            }
         }
         if(nome != null){
             alunosFilter = alunosFilter.stream()
                     .filter(alunoNome -> alunoNome.getNome().contains(nome))
                     .collect(Collectors.toList());
+            if(alunosFilter.isEmpty()){
+                throw new RecursoInexistenteException();
+            }
         }
         if(idade != null){
             alunosFilter = alunosFilter.stream()
                     .filter(alunoIdade -> alunoIdade.getIdade().equals(idade))
                     .collect(Collectors.toList());
+            if(alunosFilter.isEmpty()){
+                throw new RecursoInexistenteException();
+            }
         }
         return alunosFilter;
     }
@@ -39,7 +48,7 @@ public class AlunoService {
         if(alunoFinal.isPresent()){
             return alunoFinal.get();
         }
-        return null;
+        return alunoFinal.orElseThrow(() -> new RecursoInexistenteException());
     }
 
     public Aluno save(@RequestBody Aluno aluno){
